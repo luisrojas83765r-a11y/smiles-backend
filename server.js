@@ -32,6 +32,6 @@ app.listen(process.env.PORT, () => {
     console.log(`Servidor en puerto ${process.env.PORT}`);
 
     app.get("/", (req, res) => {
-    res.send("API Smiles funcionando");
-});
+        res.send("API Smiles funcionando");
+    });
 });
