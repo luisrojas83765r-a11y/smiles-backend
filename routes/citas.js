@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Cita = require("../models/Cita");
+const Cita = require("../models/cita");
 
 router.post("/", async (req, res) => {
     const cita = new Cita(req.body);
