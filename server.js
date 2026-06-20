@@ -1,7 +1,7 @@
 require("dotenv").config();
-const pacientesRoutes = require("./routes/Pacientes");
-const dentistasRoutes = require("./routes/Dentistas");
-const citasRoutes = require("./routes/Citas");
+const pacientesRoutes = require("./routes/pacientes");
+const dentistasRoutes = require("./routes/dentistas");
+const citasRoutes = require("./routes/citas");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -34,5 +34,5 @@ app.listen(process.env.PORT, () => {
     app.get("/", (req, res) => {
         res.send("API Smiles funcionando");
     });
-    
+
 });
