@@ -34,4 +34,5 @@ app.listen(process.env.PORT, () => {
     app.get("/", (req, res) => {
         res.send("API Smiles funcionando");
     });
+    
 });
