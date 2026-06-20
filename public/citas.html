@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Citas</title>
+</head>
+<body>
+
+<h1>Agendar Cita</h1>
+
+<input type="text" id="paciente" placeholder="ID Paciente">
+<input type="text" id="dentista" placeholder="ID Dentista">
+<input type="date" id="fecha">
+<input type="time" id="hora">
+<input type="text" id="motivo" placeholder="Motivo">
+
+<button onclick="guardarCita()">Guardar</button>
+
+<h2>Lista de Citas</h2>
+
+<ul id="listaCitas"></ul>
+
+<script>
+
+async function cargarCitas() {
+
+    const respuesta = await fetch("/api/citas");
+    const citas = await respuesta.json();
+
+    const lista = document.getElementById("listaCitas");
+
+    lista.innerHTML = "";
+
+    citas.forEach(cita => {
+
+        lista.innerHTML += `
+        <li>
+            ${cita.paciente?.nombre || "Paciente"}
+            -
+            ${cita.dentista?.nombre || "Dentista"}
+            -
+            ${cita.fecha?.substring(0,10)}
+            -
+            ${cita.hora}
+        </li>
+        `;
+    });
+}
+
+async function guardarCita() {
+
+    const cita = {
+
+        paciente: document.getElementById("paciente").value,
+        dentista: document.getElementById("dentista").value,
+        fecha: document.getElementById("fecha").value,
+        hora: document.getElementById("hora").value,
+        motivo: document.getElementById("motivo").value,
+        estado: "Programada"
+    };
+
+    await fetch("/api/citas", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(cita)
+    });
+
+    cargarCitas();
+}
+
+cargarCitas();
+
+</script>
+
+</body>
+</html>

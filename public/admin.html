@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Panel Administrativo</title>
+</head>
+<body>
+
+<h1>Panel Administrativo</h1>
+
+<h2 id="pacientes">Pacientes: 0</h2>
+<h2 id="dentistas">Dentistas: 0</h2>
+<h2 id="citas">Citas: 0</h2>
+
+<script>
+
+async function cargarDatos() {
+
+    const pacientes = await fetch("/api/pacientes");
+    const dentistas = await fetch("/api/dentistas");
+    const citas = await fetch("/api/citas");
+
+    const pacientesJson = await pacientes.json();
+    const dentistasJson = await dentistas.json();
+    const citasJson = await citas.json();
+
+    document.getElementById("pacientes").innerText =
+        "Pacientes: " + pacientesJson.length;
+
+    document.getElementById("dentistas").innerText =
+        "Dentistas: " + dentistasJson.length;
+
+    document.getElementById("citas").innerText =
+        "Citas: " + citasJson.length;
+}
+
+cargarDatos();
+
+</script>
+
+</body>
+</html>

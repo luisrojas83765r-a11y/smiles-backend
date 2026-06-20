@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pacientes</title>
+</head>
+<body>
+
+<h1>Pacientes</h1>
+
+<input type="text" id="nombre" placeholder="Nombre">
+<input type="number" id="edad" placeholder="Edad">
+<input type="text" id="telefono" placeholder="Teléfono">
+<input type="email" id="correo" placeholder="Correo">
+<input type="text" id="direccion" placeholder="Dirección">
+
+<button onclick="guardarPaciente()">Guardar</button>
+
+<h2>Lista de Pacientes</h2>
+
+<ul id="listaPacientes"></ul>
+
+<script>
+
+async function cargarPacientes() {
+
+    const respuesta = await fetch("/api/pacientes");
+    const pacientes = await respuesta.json();
+
+    const lista = document.getElementById("listaPacientes");
+
+    lista.innerHTML = "";
+
+    pacientes.forEach(paciente => {
+
+        lista.innerHTML += `
+            <li>
+                ${paciente.nombre}
+                - ${paciente.telefono}
+                - ${paciente.correo}
+            </li>
+        `;
+    });
+}
+
+async function guardarPaciente() {
+
+    const paciente = {
+
+        nombre: document.getElementById("nombre").value,
+        edad: document.getElementById("edad").value,
+        telefono: document.getElementById("telefono").value,
+        correo: document.getElementById("correo").value,
+        direccion: document.getElementById("direccion").value
+    };
+
+    await fetch("/api/pacientes", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(paciente)
+    });
+
+    cargarPacientes();
+}
+
+cargarPacientes();
+
+</script>
+
+</body>
+</html>

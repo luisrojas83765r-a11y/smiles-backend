@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dentistas</title>
+</head>
+<body>
+
+<h1>Dentistas</h1>
+
+<input type="text" id="nombre" placeholder="Nombre">
+<input type="text" id="especialidad" placeholder="Especialidad">
+<input type="text" id="telefono" placeholder="Teléfono">
+<input type="email" id="correo" placeholder="Correo">
+<input type="text" id="horario" placeholder="Horario">
+
+<button onclick="guardarDentista()">Guardar</button>
+
+<h2>Lista de Dentistas</h2>
+
+<ul id="listaDentistas"></ul>
+
+<script>
+
+async function cargarDentistas() {
+
+    const respuesta = await fetch("/api/dentistas");
+    const dentistas = await respuesta.json();
+
+    const lista = document.getElementById("listaDentistas");
+
+    lista.innerHTML = "";
+
+    dentistas.forEach(dentista => {
+
+        lista.innerHTML += `
+        <li>
+            ${dentista.nombre}
+            - ${dentista.especialidad}
+            - ${dentista.telefono}
+        </li>
+        `;
+    });
+}
+
+async function guardarDentista() {
+
+    const dentista = {
+
+        nombre: document.getElementById("nombre").value,
+        especialidad: document.getElementById("especialidad").value,
+        telefono: document.getElementById("telefono").value,
+        correo: document.getElementById("correo").value,
+        horario: document.getElementById("horario").value
+    };
+
+    await fetch("/api/dentistas", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(dentista)
+    });
+
+    cargarDentistas();
+}
+
+cargarDentistas();
+
+</script>
+
+</body>
+</html>
